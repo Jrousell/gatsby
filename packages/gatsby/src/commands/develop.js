@@ -243,26 +243,32 @@ module.exports = async (program: any) => {
         report.panic(err)
       }
 
-      if (port !== _port) {
-        // eslint-disable-next-line max-len
-        const question = `Something is already running at port ${port} \nWould you like to run the app at another port instead? [Y/n] `
+      startServer(program).then(([c, l]) => {
+        compiler = c
+        resolve()
+      })
 
-        rlInterface.question(question, answer => {
-          if (answer.length === 0 || answer.match(/^yes|y$/i)) {
-            program.port = _port // eslint-disable-line no-param-reassign
-          }
 
-          startServer(program).then(([c, l]) => {
-            compiler = c
-            resolve()
-          })
-        })
-      } else {
-        startServer(program).then(([c, l]) => {
-          compiler = c
-          resolve()
-        })
-      }
+      //   if (port !== _port) {
+      //   // eslint-disable-next-line max-len
+      //   const question = `Something is already running at port ${port} \nWould you like to run the app at another port instead? [Y/n] `
+
+      //   rlInterface.question(question, answer => {
+      //     if (answer.length === 0 || answer.match(/^yes|y$/i)) {
+      //       program.port = _port // eslint-disable-line no-param-reassign
+      //     }
+
+      //     startServer(program).then(([c, l]) => {
+      //       compiler = c
+      //       resolve()
+      //     })
+      //   })
+      // } else {
+      //   startServer(program).then(([c, l]) => {
+      //     compiler = c
+      //     resolve()
+      //   })
+      // }
     })
   })
 
